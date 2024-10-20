@@ -13,6 +13,20 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
+
+  List toDoTasks = [
+    ["Learn Flutter", true],
+    ["Get Job",false],
+  ];
+
+  void checkBoxChanged(bool? value, int index){
+    setState(() {
+      toDoTasks[index][1] = !toDoTasks[index][1];
+    });
+
+  }
+
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -24,15 +38,16 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
       )
       ,
-      body: ListView(
-        children: [
-          TodoTile(
-            taskName: 'Onga bonga',
-            taskCompleted: true,
-            onChanged: (p0) {},
-          ),
-        ],
-      ),
+      body: ListView.builder(
+        itemCount: toDoTasks.length,
+        itemBuilder: (context, index) {
+          return TodoTile(
+            taskName: toDoTasks[index][0],
+            taskCompleted: toDoTasks[index][1],
+            onChanged: (value) => checkBoxChanged(value, index),
+            );
+        }
+        )
     );
   }
 }
